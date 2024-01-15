@@ -2,14 +2,7 @@ import os
 import csv
 
 #relative path to the budget data csv file
-budget_data_import = os.path.join ("Resources", "budget_data.csv") 
-
-# Your task is to create a Python script that analyzes the records to calculate each of the following values:
-    #The total number of months included in the dataset
-    #The net total amount of "Profit/Losses" over the entire period
-    #The changes in "Profit/Losses" over the entire period, and then the average of those changes
-    #The greatest increase in profits (date and amount) over the entire period
-    #The greatest decrease in profits (date and amount) over the entire period
+budget_data_import = os.path.join ("python-challenge", "PyBank", "Resources", "budget_data.csv") 
 
 #store data from csv in lists
 months = []
@@ -34,25 +27,45 @@ with open(budget_data_import) as csvfile:
 
     #make a list with the net change of each month. the list will have one less object than profits_losses, since it is change between months.
     #sources used: https://stackoverflow.com/questions/2400840/python-finding-differences-between-elements-of-a-list
-    #come back and see if list comprehension methods could be used here?
-    for x in range(len(profits_losses) - 1):
-        #daily change is day minus previous month
-        change = (profits_losses[x + 1]) - (profits_losses[x])
-        #add daily change to list
-        profits_losses_changes.append(change)  
-
+    #using list comprehension
+    profits_losses_changes = [(profits_losses[x+1] - profits_losses[x]) for x in range(len(profits_losses)-1)]
+    
     #calculate the average monthly change as the total overall changes, divided by the number of changes analyzed
     avg_change = (sum(profits_losses_changes))/(int(len(profits_losses_changes)))
-    print(avg_change)
-
-    #prepare to merge the monthly change and month lists by making them the same size, removing first date from month
-    #as there is no change associated with the first day
+    
+    #prepare to merge the monthly change and month lists by making them the same size,
+        #removing first date from month as there is no change associated with the first day
     #list cloning source: https://stackoverflow.com/questions/2612802/how-do-i-clone-a-list-so-that-it-doesnt-change-unexpectedly-after-assignment
     months_change = list(months)
     months_change.pop(0)
     
+    date_with_amount = list(zip(months_change, profits_losses_changes))
+    #set variables for max & min as a counter to use in loop
+    max = 0
+    min = 0
+    for row in date_with_amount:
+       if int(row[1]) > max:
+        max = int(row[1])
+        max_index = date_with_amount.index(row)
+       elif int(row[1]) < min:
+        min = int(row[1])
+        min_index = date_with_amount.index(row)
+  
+    #print to terminal
+    print("Financial Analysis")
+    print("----------------------------------")
+    print(f"Total: ${net_total}")  
+    print(f"Total Months: {str(len(months))}")
+    print(f"Average Change: ${float(round(avg_change, 2))}")
+    print(f"Greatest Increase in Profits: {date_with_amount[max_index]}") 
+    print(f"Greatest Decrease in Profits: {date_with_amount[min_index]}")
 
-    #check work (clean up later to print nicely to terminal)
-    print(net_total)  
-    print(str(len(months)))
+    #next set up to export to new txt file
+    file_name = "PyBankSummary.txt"
+    file_path = os.path.join("analysis", file_name)
+    with open(file_name, 'w') as text_file:
+        file_name.write("hi")
+
+
+    
     
