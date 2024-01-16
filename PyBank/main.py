@@ -2,7 +2,7 @@ import os
 import csv
 
 #relative path to the budget data csv file
-budget_data_import = os.path.join ("python-challenge", "PyBank", "Resources", "budget_data.csv") 
+budget_data_import = os.path.join("PyBank", "Resources", "budget_data.csv") 
 
 #store data from csv in lists
 months = []
@@ -61,10 +61,12 @@ with open(budget_data_import) as csvfile:
     print(f"Greatest Decrease in Profits: {date_with_amount[min_index]}")
 
     #next set up to export to new txt file
-    file_name = "PyBankSummary.txt"
-    file_path = os.path.join("analysis", file_name)
-    with open(file_name, 'w') as text_file:
-        file_name.write("hi")
+    #add \n to format as each piece of information on their own line (https://www.w3schools.com/python/ref_file_write.asp)
+    with open('PyBank\Analysis\PyBankSummary.txt', 'w') as pb:
+        pb.write(f"Financial Analysis: Total: ${net_total} \nTotal Months: {str(len(months))} \nAverage Change: ${float(round(avg_change, 2))} \nGreatest Increase in Profits: {date_with_amount[max_index]} \nGreatest Decrease in Profits: {date_with_amount[min_index]}")
+   
+
+  
 
 
     

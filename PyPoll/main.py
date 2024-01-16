@@ -8,15 +8,16 @@ import os
 import csv
 
 #relative path to the budget data csv file
-election_data_import = os.path.join ("python-challenge", "PyPoll", "Resources", "election_data.csv")
+election_data_import = os.path.join ("PyPoll", "Resources", "election_data.csv")
 
-#set up lists to store data in
+#set up all lists that will be used throughout code to store data
 vote_tally = []
 # counties = [] not actually using county data
 candidate_tally = []
 candidates = []
 votes_for_each = []
 percent_each = []
+candidate_export=[]
 
 with open(election_data_import) as csvfile:
     csvreader = csv.reader(csvfile, delimiter = ',')
@@ -56,6 +57,11 @@ with open(election_data_import) as csvfile:
     print("-------------------------------------------")
     print(f'Total votes: {str(len(vote_tally))}')
     for candidate in candidate_summary:
+        candidate_export.append(candidate)
         print(candidate)
     print("----------------------------------------------")
     print(f'The winner is: {winner}')
+
+    #export as txt file
+    with open('PyPoll\Analysis\PyPollSummary.txt', 'w') as pp:
+        pp.write(f'Election Reusults \nTotal votes: {str(len(vote_tally))} \n{candidate_export[0]} \n{candidate_export[1]} \n{candidate_export[2]} \n The winner is: {winner}')
