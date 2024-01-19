@@ -8,7 +8,7 @@ import os
 import csv
 
 #relative path to the budget data csv file
-election_data_import = os.path.join ("PyPoll", "Resources", "election_data.csv")
+election_data_import = os.path.join ("Resources", "election_data.csv")
 
 #set up all lists that will be used throughout code to store data
 vote_tally = []
@@ -63,5 +63,5 @@ with open(election_data_import) as csvfile:
     print(f'The winner is: {winner}')
 
     #export as txt file
-    with open('PyPoll\Analysis\PyPollSummary.txt', 'w') as pp:
+    with open('Analysis\PyPollSummary.txt', 'w') as pp:
         pp.write(f'Election Reusults \nTotal votes: {str(len(vote_tally))} \n{candidate_export[0]} \n{candidate_export[1]} \n{candidate_export[2]} \n The winner is: {winner}')
